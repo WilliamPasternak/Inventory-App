@@ -4,7 +4,10 @@ const mongoose = require("mongoose")
 const bodyParser = require("body-parser")
 const cors = require("cors")
 
-const userRoutes = require('./routes/userRoute')
+
+const userRoutes = require('./backend/routes/userRoute') 
+const errorHandler = require('./backend/middleWare/errorMiddleware')
+
 const app = express()
 
 // Middleware
@@ -13,12 +16,16 @@ app.use(express.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
 // Routes Middleware
-app.use('api/users', userRoute)
+app.use('/api/users', userRoutes)
+
 
 // Routes
 app.get('/', (req,res) => {
   res.send('Home Page sent!')
 })
+
+// Error Middleware
+app.use(errorHandler)
 
 // Connect to DB and start server
   const PORT = process.env.PORT || 9000;
