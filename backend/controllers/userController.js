@@ -1,6 +1,10 @@
 const asyncHandler = require('express-async-handler')
 const User = require('../models/User')
+const jwt = require('jsonwebtoken')
 
+const generateToken = (id) => {
+    return jwt.sign({id}, process.env.JWT_SECRET, {expiresIn: '1d'})
+}
 
 
 const registerUser = asyncHandler( async (req,res) => {
@@ -29,17 +33,21 @@ const registerUser = asyncHandler( async (req,res) => {
     res.status(400)
     throw new Error('This email address has already been registered. Please choose a different one.')
    }
-  // Create new user with provided name, email, and password
+ 
+   // Create new user with provided name, email, and password
    const user = await User.create({
        // In ES6, if the property name matches the variable name, you can simply use the variable name
        name, email, password,
    });
+
+   // Generate Token
+   const token = generateToken(user._id)
    
    if (user) {
     console.log('User Created!')
     const {id, name, photo, role} = user
     res.status(201).json({
-        id, name, photo, role
+        id, name, photo, role, token
     })
    } else {
     res.status(400)
