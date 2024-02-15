@@ -6,7 +6,7 @@ const generateToken = (id) => {
     return jwt.sign({id}, process.env.JWT_SECRET, {expiresIn: '1d'})
 }
 
-
+// Register User
 const registerUser = asyncHandler( async (req,res) => {
    const {name, email, password} = req.body
    // Check that all fields filled out.
@@ -64,6 +64,12 @@ const registerUser = asyncHandler( async (req,res) => {
    }
 })
 
+// Login User
+const loginUser = asyncHandler(async (req,res) => {
+    res.send('Login User')
+})
+
 module.exports = {
-    registerUser
+    registerUser,
+    loginUser
 }
