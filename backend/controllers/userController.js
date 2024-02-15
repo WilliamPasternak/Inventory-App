@@ -42,6 +42,15 @@ const registerUser = asyncHandler( async (req,res) => {
 
    // Generate Token
    const token = generateToken(user._id)
+
+   // Send HTTP-only cookie
+   res.cookie('token', token, {
+    path: '/',
+    httpOnly: true,
+    expires:  new Date(Date.now() + 1000 * 86400), // Expires in 1 day
+    sameSite: 'none',
+    secure: true,
+   })
    
    if (user) {
     console.log('User Created!')

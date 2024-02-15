@@ -3,6 +3,7 @@ const express = require("express")
 const mongoose = require("mongoose")
 const bodyParser = require("body-parser")
 const cors = require("cors")
+const cookieParser = require("cookie-parser")
 
 
 const userRoutes = require('./backend/routes/userRoute') 
@@ -12,6 +13,7 @@ const app = express()
 
 // Middleware
 app.use(express.json())
+app.use(cookieParser())
 app.use(express.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
