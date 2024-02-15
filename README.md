@@ -3,6 +3,7 @@ Count is a free inventory management system for bars, restaurants, and anyone wh
 
 **Link to project:**  (Not Yet Live)
   <p align = 'center'>
+   <img align="center" src="https://github.com/WilliamPasternak/Inventory-App/blob/main/count-logo.png" alt="count app logo: a vampire next to the word 'count'">
 </p>
 
 ## How It's Made:
