@@ -113,7 +113,6 @@ const loginUser = asyncHandler(async (req,res) => {
     }
 })
 
-
 // Logout user
 const logout = asyncHandler(async (req, res) => {
     res.cookie("token", "", {
@@ -134,9 +133,9 @@ const getUser = asyncHandler(async (req,res) => {
     const user = await User.findById(req.user._id)
     
     if (user) {
-        const {_id, name, photo, role} = user
+        const {_id, name, photo, role, email} = user
         res.status(200).json({
-            _id, name, photo, role
+            _id, name, photo, role, email
         })
        } else {
         res.status(400)
@@ -158,10 +157,35 @@ const loginStatus = asyncHandler(async (req,res) => {
     return res.json(false)
 })
 
+// Update User
+const updateUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+
+  if (user) {
+    const {name, photo, role, email} = user
+    user.email = email
+    user.name = req.body.name || name
+    user.photo = req.body.photo || photo
+    user.role = req.body.role || role
+
+    const updatedUser = await user.save();
+    res.status(200).json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      photo: updatedUser.photo,
+      role: updatedUser.role,
+    });
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
+});
+
 module.exports = {
     registerUser,
     loginUser,
     logout,
     getUser,
-    loginStatus
+    loginStatus, 
+    updateUser
 }
