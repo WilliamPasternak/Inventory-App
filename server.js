@@ -4,9 +4,10 @@ const mongoose = require("mongoose")
 const bodyParser = require("body-parser")
 const cors = require("cors")
 const cookieParser = require("cookie-parser")
-
+const path = require("path");
 
 const userRoutes = require('./backend/routes/userRoute') 
+const productRoutes = require('./backend/routes/productRoute') 
 const errorHandler = require('./backend/middleWare/errorMiddleware')
 
 const app = express()
@@ -17,8 +18,12 @@ app.use(cookieParser())
 app.use(express.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 // Routes Middleware
 app.use('/api/users', userRoutes)
+app.use('/api/products', productRoutes)
+
 
 
 // Routes
